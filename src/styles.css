@@ -1,0 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+}
+
+.app {
+    text-align: center;
+}
+
+.editor {
+    margin-top: 20px;
+}
+
+canvas {
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+.slider {
+    margin: 10px 0;
+}
