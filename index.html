@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Editor_v2.4</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <input type="file" id="imageUpload" accept="image/*">
+            <label for="imageUpload" id="uploadLabel" class="button">Add Image</label>
+            <button id="clearButton" class="button">Clear Image</button>
+            <br><br>
+            <div id="imagePreview" class="placeholder" ondragover="handleDragOver(event)" ondrop="handleDrop(event)">
+                Drop the image here
+            </div>
+        </div>
+        <div class="right-panel">
+            <div class="control-group">
+                <div class="control">
+                    <label for="size">Size:</label>
+                    <input type="range" id="size" min="10" max="100" value="80">
+                    <div class="number-input">
+                        <input type="number" id="sizeValue" min="10" max="100" value="80">
+                        <div class="range-hint" id="sizeHint">Range: 10-100</div>
+                    </div>
+                </div>
+                <div class="control">
+                    <label for="roundness">Roundness:</label>
+                    <input type="range" id="roundness" min="0" max="50" value="10">
+                    <div class="number-input">
+                        <input type="number" id="roundnessValue" min="0" max="50" value="10">
+                        <div class="range-hint" id="roundnessHint">Range: 0-50</div>
+                    </div>
+                </div>
+                <div class="control">
+                    <label for="shadow">Shadow:</label>
+                    <input type="range" id="shadow" min="0" max="40" value="0">
+                    <div class="number-input">
+                        <input type="number" id="shadowValue" min="0" max="40" value="0">
+                        <div class="range-hint" id="shadowHint">Range: 0-40</div>
+                    </div>
+                </div>
+                <div class="control">
+                    <label for="background">Background:</label>
+                    <select id="background">
+                        <option value="none">None</option>
+                        <option value="linear-gradient(to bottom right, #FFD700, #FFA500)">Gold</option>
+                        <option value="linear-gradient(to bottom right, #90EE90, #32CD32)">Green</option>
+                        <option value="linear-gradient(to bottom right, #87CEEB, #4169E1)">Blue</option>
+                    </select>
+                </div>
+                <button id="downloadButton" class="button" disabled>Download Image</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
