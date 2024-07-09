@@ -5,12 +5,18 @@
 如下所示的效果：
 ![image](https://github.com/AntlerPotato/PictureEdit_test1/blob/main/Example/1.png)
 
-### 2.5版本
-下载问题已解决
+
+### 未来规划beta
+计划添加：（1）将编辑好的图片复制到剪贴板（2）添加噪声noise的控制选项（3）添加可自定义背景的圆角度数的功能（4）添加水印选项，可选择位置（右下角/左下角/中间/对角），可调整大小和颜色深浅（5）美化组件布局，放大预览界面（6）可以在上传图片之后继续对图片进行编辑，例如裁剪（矩形裁剪/固定长宽比裁剪/不规则裁剪）等
+
+### 2.6版本（最新）
+修复了html2canvas对阴影的限制，并添加了可自定义下载的图片清晰度的选项
 
 最新预览图：
-![image](https://github.com/AntlerPotato/PictureEdit_test1/blob/main/Example/v2.4.png)
+![image](https://github.com/AntlerPotato/PictureEdit_test1/blob/main/Example/v2.6.png)
 
+### 2.5版本
+下载问题已解决，可以正常下载图片，由于html2canvas的限制，阴影暂时无法下载
 
 ### 2.4版本
 美化了一下界面，分为左右两部分，修复图片阴影出现的位置，并且可以手动调节数字大小，已添加下载按钮，但是暂时存在问题没有解决
