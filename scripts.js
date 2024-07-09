@@ -13,6 +13,7 @@ const backgroundControl = document.getElementById('background');
 const qualityControl = document.getElementById('quality');
 const clearButton = document.getElementById('clearButton');
 const downloadButton = document.getElementById('downloadButton');
+const copyButton = document.getElementById('copyButton');
 
 imageUpload.addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -23,6 +24,7 @@ imageUpload.addEventListener('change', function(e) {
             imagePreview.style.border = 'none'; // Disable border when image is present
             updateImage();
             downloadButton.disabled = false; // Enable download button
+            copyButton.disabled = false; // Enable copy button
         }
         reader.readAsDataURL(file);
     }
@@ -131,6 +133,7 @@ function handleDrop(e) {
             imagePreview.style.border = 'none'; // Disable border when image is present
             updateImage();
             downloadButton.disabled = false; // Enable download button
+            copyButton.disabled = false; // Enable copy button
         }
         reader.readAsDataURL(file);
     }
@@ -176,4 +179,43 @@ downloadButton.addEventListener('click', function() {
         .catch(function(error) {
             console.error('oops, something went wrong!', error);
         });
+});
+
+copyButton.addEventListener('click', async function() {
+    const img = imagePreview.querySelector('img');
+    if (!img) {
+        alert('No image exist!');
+        return;
+    }
+
+    const scale = parseInt(qualityControl.value); // 获取选定的清晰度等级
+    const config = {
+        width: imagePreview.clientWidth * scale,
+        height: imagePreview.clientHeight * scale,
+        style: {
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            width: `${imagePreview.clientWidth}px`,
+            height: `${imagePreview.clientHeight}px`
+        },
+        scale: scale,
+        dpi: window.devicePixelRatio * scale // 设备像素比
+    };
+
+    try {
+        const dataUrl = await domtoimage.toPng(imagePreview, config);
+        const blob = await (await fetch(dataUrl)).blob();
+        await navigator.clipboard.write([
+            new ClipboardItem({
+                [blob.type]: blob
+            })
+        ]);
+        alert('Image copied to clipboard successfully!');
+    } catch (err) {
+        if (err.name === 'NotAllowedError') {
+            alert('Failed: unknown reason');
+        } else {
+            console.error('Could not copy image to clipboard', err);
+        }
+    }
 });
