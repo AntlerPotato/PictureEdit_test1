@@ -10,10 +10,9 @@ const shadowControl = document.getElementById('shadow');
 const shadowValue = document.getElementById('shadowValue');
 const shadowHint = document.getElementById('shadowHint');
 const backgroundControl = document.getElementById('background');
+const qualityControl = document.getElementById('quality');
 const clearButton = document.getElementById('clearButton');
 const downloadButton = document.getElementById('downloadButton');
-
-let currentShadow = '0px 0px 0px rgba(0,0,0,0)'; // 初始值，无阴影
 
 imageUpload.addEventListener('change', function(e) {
     const file = e.target.files[0];
@@ -50,8 +49,6 @@ function updateImage() {
     sizeValue.value = size;
     roundnessValue.value = roundness;
     shadowValue.value = shadow;
-
-    currentShadow = `0 ${shadow}px ${shadow * 2}px rgba(0,0,0,0.4)`; // 保存当前阴影值
 }
 
 sizeControl.addEventListener('input', function() {
@@ -153,29 +150,30 @@ imagePreview.addEventListener('dragenter', handleDragEnter);
 imagePreview.addEventListener('dragleave', handleDragLeave);
 
 downloadButton.addEventListener('click', function() {
-    html2canvas(imagePreview, {
-        backgroundColor: null,
-        useCORS: true, // Allow cross-origin images to be used
-        scale: window.devicePixelRatio, // Use device pixel ratio for better quality
-        logging: true, // Enable logging for debugging
-        onclone: (document) => {
-            const clonedPreview = document.getElementById('imagePreview');
-            const img = clonedPreview.querySelector('img');
-            if (img) {
-                img.style.border = 'none';
-                img.style.margin = '0';
-                img.style.boxShadow = currentShadow; // 使用保存的阴影值
-            }
-            clonedPreview.style.border = 'none';
-            clonedPreview.style.padding = '0';
-            clonedPreview.style.margin = '0';
-            clonedPreview.style.boxShadow = 'none';
+    const scale = parseInt(qualityControl.value); // 获取选定的清晰度等级
+    const config = {
+        width: imagePreview.clientWidth * scale,
+        height: imagePreview.clientHeight * scale,
+        style: {
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+            width: `${imagePreview.clientWidth}px`,
+            height: `${imagePreview.clientHeight}px`
         },
-        removeContainer: true // Ensure container is removed after render
-    }).then((canvas) => {
-        const a = document.createElement('a');
-        a.href = canvas.toDataURL('image/png');
-        a.download = 'edited-image.png';
-        a.click();
-    });
+        scale: scale,
+        dpi: window.devicePixelRatio * scale // 设备像素比
+    };
+
+    domtoimage.toPng(imagePreview, config)
+        .then(function(dataUrl) {
+            const img = new Image();
+            img.src = dataUrl;
+            const a = document.createElement('a');
+            a.href = img.src;
+            a.download = 'edited-image.png';
+            a.click();
+        })
+        .catch(function(error) {
+            console.error('oops, something went wrong!', error);
+        });
 });
